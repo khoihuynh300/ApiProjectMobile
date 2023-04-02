@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserModel {
 	private Long userId;
 	private String email;
-	private String password;
 	private String fullname;
-	private String avartar;
+	private String avatar;
 	private String role;
-	private Boolean enable;
-	private Boolean active;
 }

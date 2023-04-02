@@ -7,5 +7,7 @@ import com.example.api.entity.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
+	
+	Users findByEmail(String email);
 
 }

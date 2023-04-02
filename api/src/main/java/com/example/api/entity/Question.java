@@ -1,6 +1,7 @@
 package com.example.api.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -12,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +42,19 @@ public class Question implements Serializable {
 	
 	@Column(name = "ViewCount")
 	private Double view;
+	
+	private Date createdAt;
+	private Date updatedAt;
+	
+	@PrePersist
+	void createdAt() {
+		this.createdAt = this.updatedAt = new Date();
+	}
+
+	@PreUpdate
+	void updatedAt() {
+		this.updatedAt = new Date();
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "AskedId")

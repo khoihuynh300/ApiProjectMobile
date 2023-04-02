@@ -21,6 +21,13 @@ public class UsersServiceImpl implements IUsersService {
 	public long count() {
 		return usersRepository.count();
 	}
+
+	@Override
+	public Users findByEmail(String email) {
+		return usersRepository.findByEmail(email);
+	}
+	
+	
 	
 	
 }

@@ -1,6 +1,7 @@
 package com.example.api.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -10,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +35,7 @@ public class Users implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 	
-	@Column(name = "Email")
+	@Column(name = "Email", unique=true)
 	private String email;
 	
 	@Column(name = "Password")
@@ -45,13 +48,27 @@ public class Users implements Serializable {
 	private String avatar;
 
 	@Column(name = "Role")
-	private String role;
+	private String role = "sinhvien";
 
 	@Column(name = "Ban")
-	private Boolean ban;
+	private Boolean ban = false;
 
 	@Column(name = "Active")
-	private Boolean active;
+	private Boolean active = false;
+	
+
+	private Date createdAt;
+	private Date updatedAt;
+	
+	@PrePersist
+	void createdAt() {
+		this.createdAt = this.updatedAt = new Date();
+	}
+
+	@PreUpdate
+	void updatedAt() {
+		this.updatedAt = new Date();
+	}
 	
 	@OneToMany(mappedBy = "proposedById", cascade = CascadeType.ALL)
 	private Set<Inn> innProposed;

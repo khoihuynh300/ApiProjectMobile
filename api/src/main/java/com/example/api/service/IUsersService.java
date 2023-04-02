@@ -8,4 +8,6 @@ public interface IUsersService {
 
 	long count();
 
+	Users findByEmail(String email);
+
 }
