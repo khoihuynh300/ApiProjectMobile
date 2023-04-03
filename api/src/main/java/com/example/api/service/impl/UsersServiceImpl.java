@@ -1,5 +1,7 @@
 package com.example.api.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,11 @@ public class UsersServiceImpl implements IUsersService {
 	@Override
 	public Users findByEmail(String email) {
 		return usersRepository.findByEmail(email);
+	}
+
+	@Override
+	public Optional<Users> findById(Long id) {
+		return usersRepository.findById(id);
 	}
 	
 	
