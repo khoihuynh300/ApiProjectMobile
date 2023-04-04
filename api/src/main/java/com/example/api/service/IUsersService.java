@@ -10,7 +10,7 @@ public interface IUsersService {
 
 	long count();
 
-	Users findByEmail(String email);
+	Optional<Users> findByEmail(String email);
 
 	Optional<Users> findById(Long id);
 
