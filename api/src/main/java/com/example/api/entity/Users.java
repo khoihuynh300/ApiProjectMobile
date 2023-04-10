@@ -7,6 +7,8 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,6 +44,10 @@ public class Users implements Serializable {
 
 	@Column(name = "Fullname")
 	private String fullname;
+	
+	@Column(name = "Gender")
+	@Enumerated(EnumType.STRING)
+	private Gender Gender;
 
 	@Column(name = "Avatar")
 	private String avatar;
@@ -49,11 +55,11 @@ public class Users implements Serializable {
 	@Column(name = "Role")
 	private String role = "sinhvien";
 
-	@Column(name = "Ban")
-	private Boolean ban = false;
+//	@Column(name = "Ban")
+//	private Boolean ban = false;
 
 	@Column(name = "Active")
-	private Boolean active = false;
+	private Boolean active = true;
 	
 
 	private Date createdAt;
@@ -86,5 +92,10 @@ public class Users implements Serializable {
 	
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
 	private Set<Message> message;
+	
+	public enum Gender {
+	    MALE,
+	    FEMALE
+	}
 	
 }
