@@ -20,6 +20,7 @@ import com.example.api.service.IInnService;
 import com.example.api.service.ImageInnService;
 
 @RestController
+@RequestMapping("api/")
 public class InnAPI {
 	@Autowired
 	IInnService iInnService;
@@ -39,7 +40,7 @@ public class InnAPI {
 	
 	@GetMapping("inns/{_id}")
     @ResponseBody
-    public ResponseEntity<?> getCategoryById(@PathVariable("_id") Long _id) {
+    public ResponseEntity<?> getnInnById(@PathVariable("_id") Long _id) {
         InnModel innModel = iInnService.readInnById(_id);
         if (innModel != null) {
             return new ResponseEntity<InnModel>(innModel, HttpStatus.OK);
