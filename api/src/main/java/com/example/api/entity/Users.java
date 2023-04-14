@@ -25,7 +25,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-
 @Entity
 @Table(name = "Users")
 public class Users implements Serializable {

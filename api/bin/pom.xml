@@ -64,6 +64,7 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.4</version>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>
@@ -73,6 +74,9 @@
 			<artifactId>guava</artifactId>
 			<version>23.0</version>
 		</dependency>
+=======
+
+>>>>>>> 72d65e19afb30a355bf4f19fd98f0fc6bbaaad39
 
 		
 	</dependencies>
