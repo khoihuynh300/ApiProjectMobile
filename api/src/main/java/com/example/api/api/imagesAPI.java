@@ -22,13 +22,13 @@ public class imagesAPI {
 	@GetMapping("upload/{imageName:.+}")
 	@ResponseBody
 	public ResponseEntity<byte[]> getImage(@PathVariable String imageName) throws IOException {
-	    InputStream imageStream = new FileInputStream(new File("D:\\image\\" + imageName));
-	    byte[] imageBytes = IOUtils.toByteArray(imageStream);
+		InputStream imageStream = new FileInputStream(new File("D:\\image\\" + imageName));
+		byte[] imageBytes = IOUtils.toByteArray(imageStream);
 
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.IMAGE_PNG);
-	    headers.setContentLength(imageBytes.length);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_PNG);
+		headers.setContentLength(imageBytes.length);
 
-	    return new ResponseEntity<byte[]>(imageBytes, headers, HttpStatus.OK);
+		return new ResponseEntity<byte[]>(imageBytes, headers, HttpStatus.OK);
 	}
 }

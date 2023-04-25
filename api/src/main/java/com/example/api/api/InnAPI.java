@@ -20,41 +20,43 @@ import com.example.api.service.IInnService;
 import com.example.api.service.ImageInnService;
 
 @RestController
+@RequestMapping("api/")
 public class InnAPI {
 	@Autowired
 	IInnService iInnService;
-	
+
 	@Autowired
 	ImageInnService imageInnService;
-	
+
 	@GetMapping("inns")
-    public ResponseEntity<?> getAllInns() {
-        List<InnModel> inns = iInnService.getAllInns();
-        if (inns.size() > 0) {
-            return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
-        }
-    }
-	
+	public ResponseEntity<?> getAllInns() {
+		List<InnModel> inns = iInnService.getAllInns();
+		if (inns.size() > 0) {
+			return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@GetMapping("inns/{_id}")
-    @ResponseBody
-    public ResponseEntity<?> getCategoryById(@PathVariable("_id") Long _id) {
-        InnModel innModel = iInnService.readInnById(_id);
-        if (innModel != null) {
-            return new ResponseEntity<InnModel>(innModel, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
-        }
-    }
-	
+	@ResponseBody
+	public ResponseEntity<?> getnInnById(@PathVariable("_id") Long _id) {
+		InnModel innModel = iInnService.readInnById(_id);
+		if (innModel != null) {
+			return new ResponseEntity<InnModel>(innModel, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@GetMapping("inns/search")
-    public ResponseEntity<?> searchInns(@RequestParam("address") String address, @RequestParam("gtePrice") Double gtePrice, @RequestParam("ltePrice") Double ltePrice) {
-        List<InnModel> inns = iInnService.searchInn(address, gtePrice, ltePrice);
-        if (inns.size() > 0) {
-            return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
-        }
-    }
+	public ResponseEntity<?> searchInns(@RequestParam("address") String address,
+			@RequestParam("gtePrice") Double gtePrice, @RequestParam("ltePrice") Double ltePrice) {
+		List<InnModel> inns = iInnService.searchInn(address, gtePrice, ltePrice);
+		if (inns.size() > 0) {
+			return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+		}
+	}
 }

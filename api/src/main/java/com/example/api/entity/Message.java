@@ -58,6 +58,10 @@ public class Message implements Serializable {
 	private Users userId;
 	
 	@ManyToOne
+	@JoinColumn(name = "InnId")
+	private Inn innId;
+	
+	@ManyToOne
 	@JoinColumn(name = "QuestionId")
 	private Question questionId;
 }
