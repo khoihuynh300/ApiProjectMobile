@@ -69,7 +69,4 @@ public class UsersServiceImpl implements IUsersService {
 		return userModelList;
 	}
 	
-	
-	
-	
 }
