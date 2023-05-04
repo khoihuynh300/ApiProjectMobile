@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.api.entity.Users;
+import com.example.api.model.UserModel;
 
 public interface IUsersService {
 
@@ -18,8 +19,8 @@ public interface IUsersService {
 
 	Optional<Users> findById(Long id);
 
-	Page<Users> findAll(Pageable pageable);
+	List<UserModel> findAll(Pageable pageable);
 
-	List<Users> findAll();
+	List<UserModel> findAll();
 
 }

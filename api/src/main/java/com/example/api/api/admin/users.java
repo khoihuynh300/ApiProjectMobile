@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.entity.Users;
+import com.example.api.model.UserModel;
 import com.example.api.service.IUsersService;
 import com.example.api.utils.apiResponse.ApiResponseSimple;
 import com.example.api.utils.apiResponse.ApiResponseWithMeta;
@@ -33,14 +34,14 @@ public class users {
 		
 		if(type.equals("all")) {
 			//get all users
-			List<Users> users = userService.findAll();
+			List<UserModel> users = userService.findAll();
 			ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", users);
 			return ResponseEntity.ok(apiResponse);
 		}
 		else if(type.equals("page")){
 			Pageable pageable = PageRequest.of(offset, limit, Sort.by("userId").ascending());
-			Page<Users> users = userService.findAll(pageable);
-			ApiResponseWithMeta apiResponse = new ApiResponseWithMeta(false, "ok", users.get(), pageable);
+			List<UserModel> users = userService.findAll(pageable);
+			ApiResponseWithMeta apiResponse = new ApiResponseWithMeta(false, "ok", users, pageable);
 			return ResponseEntity.ok(apiResponse);			
 		}
 		
