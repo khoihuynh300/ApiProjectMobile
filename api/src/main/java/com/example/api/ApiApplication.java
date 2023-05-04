@@ -35,12 +35,24 @@ public class ApiApplication {
 		    	user.setRole("manager");
 		    	user.setActive(true);
 				usersService.save(user);
-				// user test
-				Users user2 = new Users();
-		    	user2.setEmail("test@gmail.com");
-		    	user2.setFullname("test");
-		    	user2.setPassword("test");
-		    	user2.setGender(Gender.MALE);
+				
+				// thêm dữ liệu để demo, test
+				// demo user
+				createUserDataDemo(40);
+				
+	    	}
+	    }
+	    
+	    private void createUserDataDemo(int number) {
+	    	for(int i = 1; i <= number; i++) {
+	    		Users user = new Users();
+		    	user.setEmail("user" + String.valueOf(i) +"@gmail.com");
+		    	user.setFullname("Nguyễn Văn An" + String.valueOf(i) );
+		    	user.setPassword("12345");
+		    	if(i % 2 == 0)
+		    		user.setGender(Gender.MALE);
+		    	else
+		    		user.setGender(Gender.FEMALE);
 				usersService.save(user);
 	    	}
 	    }

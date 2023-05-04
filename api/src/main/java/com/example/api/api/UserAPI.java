@@ -25,6 +25,7 @@ import com.example.api.service.IUsersService;
 import com.example.api.service.MailService;
 import com.example.api.service.OtpService;
 import com.example.api.service.ResponseService;
+import com.example.api.utils.images;
 
 @RestController
 @RequestMapping("api/")
@@ -37,15 +38,6 @@ public class UserAPI {
 
 	@Autowired
 	private OtpService otpService;
-
-	@Value("${server.address}")
-	private String serverAddress;
-
-	@Value("${server.port}")
-	private String port;
-
-	@Value("${application.imagedir}")
-	private String imagedir;
 
 	@PostMapping("login")
 	public ResponseEntity<Object> login(@RequestParam(value = "email") String email,
@@ -169,11 +161,8 @@ public class UserAPI {
 		if (file != null) {
 			// nếu người dùng có truyền image mà file empty thì thông báo lỗi
 			if (!file.isEmpty()) {
-				String fileName = file.getOriginalFilename();
-				byte[] bytes = file.getBytes();
-				File newFile = new File(imagedir + fileName);
-				FileCopyUtils.copy(bytes, newFile);
-				user.setAvatar("http://" + serverAddress + ":" + port + "/api/upload/" + fileName);
+				String imageUrl = images.saveImage(file);
+				user.setAvatar(imageUrl);
 			} else {
 				return ResponseEntity.ok(ResponseService.get(true, "Upload thất bại: File trống!"));
 			}

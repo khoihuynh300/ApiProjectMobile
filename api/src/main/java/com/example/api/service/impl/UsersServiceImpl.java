@@ -1,8 +1,11 @@
 package com.example.api.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.api.entity.Users;
@@ -32,6 +35,16 @@ public class UsersServiceImpl implements IUsersService {
 	@Override
 	public Optional<Users> findById(Long id) {
 		return usersRepository.findById(id);
+	}
+
+	@Override
+	public Page<Users> findAll(Pageable pageable) {
+		return usersRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<Users> findAll() {
+		return usersRepository.findAll();
 	}
 	
 	
