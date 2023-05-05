@@ -1,17 +1,12 @@
 package com.example.api.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Optional;
 
-import org.aspectj.apache.bcel.classfile.Module.Require;
-import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +20,7 @@ import com.example.api.service.IUsersService;
 import com.example.api.service.MailService;
 import com.example.api.service.OtpService;
 import com.example.api.service.ResponseService;
+import com.example.api.utils.images;
 
 @RestController
 @RequestMapping("api/")
@@ -37,15 +33,6 @@ public class UserAPI {
 
 	@Autowired
 	private OtpService otpService;
-
-	@Value("${server.address}")
-	private String serverAddress;
-
-	@Value("${server.port}")
-	private String port;
-
-	@Value("${application.imagedir}")
-	private String imagedir;
 
 	@PostMapping("login")
 	public ResponseEntity<Object> login(@RequestParam(value = "email") String email,
@@ -169,11 +156,8 @@ public class UserAPI {
 		if (file != null) {
 			// nếu người dùng có truyền image mà file empty thì thông báo lỗi
 			if (!file.isEmpty()) {
-				String fileName = file.getOriginalFilename();
-				byte[] bytes = file.getBytes();
-				File newFile = new File(imagedir + fileName);
-				FileCopyUtils.copy(bytes, newFile);
-				user.setAvatar("http://" + serverAddress + ":" + port + "/api/upload/" + fileName);
+				String imageUrl = images.saveImage(file);
+				user.setAvatar(imageUrl);
 			} else {
 				return ResponseEntity.ok(ResponseService.get(true, "Upload thất bại: File trống!"));
 			}

@@ -1,5 +1,7 @@
 package com.example.api.model;
 
+import java.util.Date;
+
 import com.example.api.entity.Users.Gender;
 
 import lombok.AllArgsConstructor;
@@ -16,4 +18,7 @@ public class UserModel {
 	private Gender gender;
 	private String avatar;
 	private String role;
+	private Boolean active;
+	private Date createdAt;
+	private Date updatedAt;
 }

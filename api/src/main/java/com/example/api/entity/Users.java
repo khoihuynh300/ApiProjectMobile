@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import org.hibernate.annotations.Nationalized;
+
+import com.example.api.utils.images;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +47,7 @@ public class Users implements Serializable {
 	private String password;
 
 	@Column(name = "Fullname")
+	@Nationalized 
 	private String fullname;
 	
 	@Column(name = "Gender")
@@ -50,8 +55,9 @@ public class Users implements Serializable {
 	private Gender Gender;
 
 	@Column(name = "Avatar")
-	private String avatar;
+	private String avatar = images.getDefaultImage();
 
+	//manager, sinhvien, tuvanvien
 	@Column(name = "Role")
 	private String role = "sinhvien";
 
@@ -60,7 +66,6 @@ public class Users implements Serializable {
 
 	@Column(name = "Active")
 	private Boolean active = true;
-	
 
 	private Date createdAt;
 	private Date updatedAt;
