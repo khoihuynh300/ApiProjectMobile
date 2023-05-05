@@ -9,4 +9,5 @@ import com.example.api.model.ImageModel;
 public interface ImageInnService {
 	public List<ImageModel> getAllImagesByInnId(Long innId);
 	public ImageModel getMainImageByInnId(Long innId);
+	public void addImageInn(List<String> imageArr, Inn inn);
 }

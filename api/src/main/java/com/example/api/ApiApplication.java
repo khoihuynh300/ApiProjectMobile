@@ -1,5 +1,10 @@
 package com.example.api;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +19,7 @@ import jakarta.annotation.PostConstruct;
 @SpringBootApplication
 public class ApiApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		SpringApplication.run(ApiApplication.class, args);
 	}
 	

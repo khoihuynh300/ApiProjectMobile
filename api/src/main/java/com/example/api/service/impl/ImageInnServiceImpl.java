@@ -17,6 +17,7 @@ import com.example.api.service.ImageInnService;
 public class ImageInnServiceImpl implements ImageInnService{
 	@Autowired
     ImageInnRepository imageInnRepository;
+	
 
 	@Override
     public List<ImageModel> getAllImagesByInnId(Long innId) {
@@ -50,5 +51,15 @@ public class ImageInnServiceImpl implements ImageInnService{
 			return innModel;
 		}
 		return null;
+	}
+	
+	@Override
+	public void addImageInn(List<String> imageArr, Inn inn) {
+		for (String image : imageArr) {
+			ImageInn imageInn = new ImageInn();
+			imageInn.setImage(image);
+			imageInn.setInnId(inn);
+			imageInnRepository.save(imageInn);
+		}
 	}
 }

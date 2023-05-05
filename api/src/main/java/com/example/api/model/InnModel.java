@@ -17,6 +17,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InnModel {
 	private Long innId;
+	private int size;
+	private Double priceWater;
+	private Double priceELec;
 	private String address;
 	private Double price;
 	private String phoneNumber;
@@ -24,6 +27,7 @@ public class InnModel {
 	private Date createdAt;
 	private Date updatedAt;
 	private String proposed;
+	private Long proposedId;
 	private ImageModel mainImage;
 	private List<ImageModel> images;
 }

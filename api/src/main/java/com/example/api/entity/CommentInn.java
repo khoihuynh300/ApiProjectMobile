@@ -24,36 +24,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-
 @Entity
-@Table(name = "Inn")
-public class Inn implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "CommentInn")
+public class CommentInn implements Serializable {
+private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long innId;
+	private Long commentInnId;
 	
-	@Column(name = "Size")
-	private int size;
-	
-	@Column(name = "PriceWater")
-	private Double priceWater;
-	
-	@Column(name = "PriceElec")
-	private Double priceELec;
-	
-	@Column(name = "Address")
-	private String address;
-	
-	@Column(name = "Price")
-	private Double price;
+	@Column(name = "Content")
+	private String content;
 
-	@Column(name = "PhoneNumber")
-	private String phoneNumber;
-
-	@Column(name = "Describe")
-	private String describe;
+	@Column(name = "Image")
+	private String image;
 	
 	private Date createdAt;
 	private Date updatedAt;
@@ -69,13 +53,10 @@ public class Inn implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "ProposedById")
-	private Users proposedById;
-
-	@Column(name = "IsConfirmed")
-	private Boolean isConfirmed;
+	@JoinColumn(name = "UserId")
+	private Users userId;
 	
 	@ManyToOne
-	@JoinColumn(name = "ConfirmedById")
-	private Users confirmedById;
+	@JoinColumn(name = "InnId")
+	private Inn innId;
 }

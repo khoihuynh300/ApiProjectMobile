@@ -20,6 +20,9 @@ public class InnServiceImpl implements IInnService{
     InnRepository innRepository;
 	
 	@Autowired
+	UsersServiceImpl usersServiceImpl;
+	
+	@Autowired
 	ImageInnService imageInnService;
 
 	@Override
@@ -42,9 +45,21 @@ public class InnServiceImpl implements IInnService{
     }
 	
 	@Override
-	public List<InnModel> searchInn(String address, Double gtePrice, Double ltePrice){
-		List<Inn> inns = innRepository.searchInn(address, gtePrice, ltePrice);
+	public List<InnModel> searchInn(String address, Double gtePrice, Double ltePrice, int size){
+		List<Inn> inns = innRepository.searchInn(address, gtePrice, ltePrice, size);
 		return addMainImage(inns);
+	}
+	
+	@Override
+	public void recommendInn(InnModel innModel, List<String> imageArr) {
+		Inn inn = new Inn();
+		BeanUtils.copyProperties(innModel, inn);
+		inn.setProposedById(usersServiceImpl.findById(innModel.getProposedId()).get());
+		innRepository.save(inn);
+		
+		List<Inn> inns = innRepository.findAll();
+		
+		imageInnService.addImageInn(imageArr, inns.get(inns.size() - 1));
 	}
 	
 	private List<InnModel> addMainImage(List<Inn> inns)

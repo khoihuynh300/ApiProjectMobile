@@ -13,6 +13,7 @@ public interface InnRepository extends JpaRepository<Inn, Long>{
 	@Query("SELECT i FROM Inn i WHERE i.address LIKE %:address%"
             + " AND i.price >= :gtePrice"
             + " AND i.price < :ltePrice"
+            + " AND i.size <= :size"
             + " ORDER BY i.updatedAt desc")
-	public List<Inn> searchInn(@Param("address") String address,@Param("gtePrice") Double gtePrice,@Param("ltePrice") Double ltePrice);
+	public List<Inn> searchInn(@Param("address") String address,@Param("gtePrice") Double gtePrice,@Param("ltePrice") Double ltePrice, @Param("size") int size);
 }
