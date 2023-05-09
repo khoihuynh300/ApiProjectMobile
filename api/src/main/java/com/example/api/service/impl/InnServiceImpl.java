@@ -75,4 +75,16 @@ public class InnServiceImpl implements IInnService{
 		
 		return innModels;
 	}
+
+	@Override
+	public <S extends Inn> S save(S entity) {
+		return innRepository.save(entity);
+	}
+
+	@Override
+	public Optional<Inn> findById(Long id) {
+		return innRepository.findById(id);
+	}
+	
+	
 }

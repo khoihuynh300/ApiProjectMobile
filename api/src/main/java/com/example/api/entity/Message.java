@@ -3,6 +3,8 @@ package com.example.api.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.annotations.Nationalized;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Message implements Serializable {
 	private Long messageId;
 	
 	@Column(name = "Message")
+	@Nationalized
 	private String message;
 
 	@Column(name = "Image")

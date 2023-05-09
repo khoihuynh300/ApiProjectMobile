@@ -41,7 +41,7 @@ public class Question implements Serializable {
 	private String title;
 	
 	@Column(name = "ViewCount")
-	private Double view;
+	private Double view = (double) 0;
 	
 	private Date createdAt;
 	private Date updatedAt;

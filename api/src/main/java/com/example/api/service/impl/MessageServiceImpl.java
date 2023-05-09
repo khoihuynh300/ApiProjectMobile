@@ -29,6 +29,13 @@ public class MessageServiceImpl implements MessageService{
 	@Autowired
 	IInnService iInnService;
 
+	@Override
+	public <S extends Message> S save(S entity) {
+		return messageRepository.save(entity);
+	}
+	
+	
+
 //	@Override
 //    public List<MessageModel> getAllMessageByInnId(Long innId) {
 //		Inn inn = new Inn();
