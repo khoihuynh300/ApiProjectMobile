@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.api.entity.Inn;
@@ -85,6 +87,12 @@ public class InnServiceImpl implements IInnService{
 	public Optional<Inn> findById(Long id) {
 		return innRepository.findById(id);
 	}
+
+	@Override
+	public List<Inn> findAll(Pageable pageable) {
+		return innRepository.findAll(pageable).getContent();
+	}
+	
 	
 	
 }

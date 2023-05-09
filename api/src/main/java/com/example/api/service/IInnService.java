@@ -3,6 +3,9 @@ package com.example.api.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.api.entity.Inn;
 import com.example.api.model.InnModel;
 
@@ -13,4 +16,5 @@ public interface IInnService {
 	public List<InnModel> searchInn(String address, Double gtePrice, Double ltePrice, int size);
 	<S extends Inn> S save(S entity);
 	Optional<Inn> findById(Long id);
+	List<Inn> findAll(Pageable pageable);
 }
