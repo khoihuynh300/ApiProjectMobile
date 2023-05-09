@@ -29,38 +29,38 @@ public class MessageServiceImpl implements MessageService{
 	@Autowired
 	IInnService iInnService;
 
-	@Override
-    public List<MessageModel> getAllMessageByInnId(Long innId) {
-		Inn inn = new Inn();
-		inn.setInnId(innId);
-		
-		List<Message> messages = messageRepository.findByInnId(inn);
-		
-		List<MessageModel> messageModels = new ArrayList<>();
-		for (Message message : messages) {
-			MessageModel messageModel = new MessageModel();
-			BeanUtils.copyProperties(message, messageModel);
-			messageModel.setUsername(message.getUserId().getFullname());
-			
-			messageModels.add(messageModel);
-		}
-		
-        return messageModels;
-    }
-	
-	@Override
-	public void createMessageOfInn(MessageModel messageModel) {
-		Message message = new Message();
-		message.setMessage(messageModel.getMessage());
-		message.setImage(messageModel.getImage());
-		message.setCreatedAt(messageModel.getCreatedAt());
-		message.setUpdatedAt(messageModel.getUpdatedAt());
-		message.setUserId(iUsersService.findById(messageModel.getUserId()).get());
-		
-		Inn inn = new Inn();
-		inn.setInnId(messageModel.getInnId());
-		message.setInnId(inn);
-		
-		messageRepository.save(message);
-	}
+//	@Override
+//    public List<MessageModel> getAllMessageByInnId(Long innId) {
+//		Inn inn = new Inn();
+//		inn.setInnId(innId);
+//		
+//		List<Message> messages = messageRepository.findByInnId(inn);
+//		
+//		List<MessageModel> messageModels = new ArrayList<>();
+//		for (Message message : messages) {
+//			MessageModel messageModel = new MessageModel();
+//			BeanUtils.copyProperties(message, messageModel);
+//			messageModel.setUsername(message.getUserId().getFullname());
+//			
+//			messageModels.add(messageModel);
+//		}
+//		
+//        return messageModels;
+//    }
+//	
+//	@Override
+//	public void createMessageOfInn(MessageModel messageModel) {
+//		Message message = new Message();
+//		message.setMessage(messageModel.getMessage());
+//		message.setImage(messageModel.getImage());
+//		message.setCreatedAt(messageModel.getCreatedAt());
+//		message.setUpdatedAt(messageModel.getUpdatedAt());
+//		message.setUserId(iUsersService.findById(messageModel.getUserId()).get());
+//		
+//		Inn inn = new Inn();
+//		inn.setInnId(messageModel.getInnId());
+//		message.setInnId(inn);
+//		
+//		messageRepository.save(message);
+//	}
 }

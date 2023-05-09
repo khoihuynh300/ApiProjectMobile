@@ -3,6 +3,8 @@ package com.example.api.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.annotations.Nationalized;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,7 @@ public class Inn implements Serializable {
 	private Double priceELec;
 	
 	@Column(name = "Address")
+	@Nationalized 
 	private String address;
 	
 	@Column(name = "Price")
@@ -53,6 +56,7 @@ public class Inn implements Serializable {
 	private String phoneNumber;
 
 	@Column(name = "Describe")
+	@Nationalized 
 	private String describe;
 	
 	private Date createdAt;
