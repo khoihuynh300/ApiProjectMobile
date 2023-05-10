@@ -89,8 +89,25 @@ public class InnServiceImpl implements IInnService{
 	}
 
 	@Override
-	public List<Inn> findAll(Pageable pageable) {
-		return innRepository.findAll(pageable).getContent();
+	public List<InnModel> findAll(Pageable pageable) {
+		List<Inn> innList = innRepository.findAll(pageable).getContent();
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
 	}
 	
 	

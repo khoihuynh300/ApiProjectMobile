@@ -16,5 +16,5 @@ public interface IInnService {
 	public List<InnModel> searchInn(String address, Double gtePrice, Double ltePrice, int size);
 	<S extends Inn> S save(S entity);
 	Optional<Inn> findById(Long id);
-	List<Inn> findAll(Pageable pageable);
+	List<InnModel> findAll(Pageable pageable);
 }

@@ -7,9 +7,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +49,7 @@ public class inns {
 		}
 		else if(type.equals("page")){
 			Pageable pageable = PageRequest.of(offset, limit, Sort.by("innId").ascending());
-			List<Inn> inn = iInnService.findAll(pageable);
+			List<InnModel> inn = iInnService.findAll(pageable);
 			ApiResponseWithMeta apiResponse = new ApiResponseWithMeta(false, "ok", inn, pageable);
 			return ResponseEntity.ok(apiResponse);			
 		}
@@ -62,6 +65,26 @@ public class inns {
 		inn.setIsConfirmed(true);
 		iInnService.save(inn);
 		
-		return ResponseEntity.ok(new ApiResponseSimple(true,  "update success"));	
+		return ResponseEntity.ok(new ApiResponseSimple(false,  "updated"));	
+	}
+	
+	@PostMapping("add")
+	public ResponseEntity<?> addInn(@RequestBody Inn inn){
+		/*
+		 * api này dành cho người dùng role manager nên isConfirmed = true, ConfirmedId
+		 * là id người dùng có role manager, ProposedById = null
+		 */
+		if(inn.getIsConfirmed() && inn.getConfirmedById().getRole().equals("manager") && inn.getProposedById() == null) {
+			iInnService.save(inn);
+			return ResponseEntity.ok(new ApiResponseSimple(false,  "created"));	
+		}
+		return ResponseEntity.ok(new ApiResponseSimple(true,  "invalid input"));	
+	}
+	
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<?> deleteInn(@PathVariable("id") Long id){
+		Inn inn = iInnService.findById(id).get();
+		inn.setIsDeleted(true);
+		return ResponseEntity.ok(new ApiResponseSimple(false,  "deleted"));
 	}
 }
