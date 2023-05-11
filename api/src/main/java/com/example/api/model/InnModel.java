@@ -32,4 +32,5 @@ public class InnModel {
 	private Long confirmedById;
 	private ImageModel mainImage;
 	private List<ImageModel> images;
+	private Boolean isDeleted = false;
 }

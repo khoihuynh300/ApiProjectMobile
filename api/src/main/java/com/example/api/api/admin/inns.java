@@ -85,6 +85,7 @@ public class inns {
 	public ResponseEntity<?> deleteInn(@PathVariable("id") Long id){
 		Inn inn = iInnService.findById(id).get();
 		inn.setIsDeleted(true);
+		iInnService.save(inn);
 		return ResponseEntity.ok(new ApiResponseSimple(false,  "deleted"));
 	}
 }

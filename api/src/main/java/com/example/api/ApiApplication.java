@@ -1,14 +1,9 @@
 package com.example.api;
 
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,7 +19,6 @@ import com.example.api.service.IInnService;
 import com.example.api.service.IQuestionService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MessageService;
-import com.example.api.service.impl.InnServiceImpl;
 
 import jakarta.annotation.PostConstruct;
 
