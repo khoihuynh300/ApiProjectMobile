@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements IQuestionService {
 		for (Question question : listQuestionsEntity) {
 			QuestionModel newQuestionModel = new QuestionModel();
 			BeanUtils.copyProperties(question, newQuestionModel);
-			newQuestionModel.setAskedId(question.getAskedId().getUserId());
+//			newQuestionModel.setAskedId(question.getAskedId().getUserId());
 //			newQuestionModel.setAnswererId(question.getAnswererId().getUserId());
 			listQuestionsModel.add(newQuestionModel);
 		}

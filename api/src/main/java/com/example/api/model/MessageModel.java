@@ -2,6 +2,7 @@ package com.example.api.model;
 
 import java.util.Date;
 
+import com.example.api.entity.Question;
 import com.example.api.entity.Users;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ public class MessageModel {
 	private Date createdAt;
 	private Date updatedAt;
 	private String username;
-	private Long userId;
-	private Long innId;
-	private Long quesId;
+	private Users userId;
+	private Question questionId;
 }

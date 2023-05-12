@@ -1,9 +1,16 @@
 package com.example.api.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.api.model.MessageModel;
 import com.example.api.service.IInnService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MessageService;
@@ -20,6 +27,16 @@ public class MessageAPI {
 	@Autowired
 	IUsersService iUsersService;
 
+	@GetMapping("getAllMessageByQuestionId/{id}")
+	public ResponseEntity<?> getAllMessagesByQuestionId(@PathVariable("id") Long id){
+		List<MessageModel> messages = messageService.getAllMessageByQuestionId(id);
+		if (messages.size() > 0) {
+			return new ResponseEntity<List<MessageModel>>(messages, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+		}	
+	}
+	  
 //	@GetMapping("messages")
 //	public ResponseEntity<?> getAllMessageOfInn(@RequestParam("innId") Long innId) {
 //		List<MessageModel> messageModels = messageService.getAllMessageByInnId(innId);

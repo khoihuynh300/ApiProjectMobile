@@ -2,18 +2,17 @@ package com.example.api.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.api.entity.ImageInn;
-import com.example.api.entity.Inn;
 import com.example.api.entity.Message;
-import com.example.api.model.ImageModel;
+import com.example.api.entity.Question;
 import com.example.api.model.MessageModel;
-import com.example.api.repository.ImageInnRepository;
 import com.example.api.repository.MessageRepository;
+import com.example.api.repository.QuestionRepository;
 import com.example.api.service.IInnService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MessageService;
@@ -22,6 +21,9 @@ import com.example.api.service.MessageService;
 public class MessageServiceImpl implements MessageService{
 	@Autowired
     MessageRepository messageRepository;
+	
+	@Autowired
+	QuestionRepository questionRepository;
 	
 	@Autowired
 	IUsersService iUsersService;
@@ -34,6 +36,22 @@ public class MessageServiceImpl implements MessageService{
 		return messageRepository.save(entity);
 	}
 	
+	public List<MessageModel> getAllMessageByQuestionId(Long questionId){
+		Optional<Question> question = questionRepository.findById(questionId);
+		List<MessageModel> messagesModel = new ArrayList<>();
+		if(question.isPresent()) {
+			List<Message> messagesEntity = messageRepository.findAllByQuestionId(question.get());
+			if(messagesEntity.size()>0) {
+				for(Message messageEntity : messagesEntity) {
+					MessageModel newMessageModel = new MessageModel();
+					BeanUtils.copyProperties(messageEntity, newMessageModel);
+					newMessageModel.setUsername(messageEntity.getUserId().getFullname());
+					messagesModel.add(newMessageModel);
+				}
+			}
+		}
+		return messagesModel;
+	}
 	
 
 //	@Override
