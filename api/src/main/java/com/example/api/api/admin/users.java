@@ -34,7 +34,11 @@ public class users {
 	public ResponseEntity<?> getUsers(
 			@RequestParam(value = "type", defaultValue = "page") String type,
 			@RequestParam(value = "offset", defaultValue = "0") Integer  offset,
-			@RequestParam(value = "limit", defaultValue = "10") Integer  limit){
+			@RequestParam(value = "limit", defaultValue = "10") Integer  limit,
+			@RequestParam(value = "ascending", defaultValue = "true") Boolean  ascending,
+			@RequestParam(value = "isActive", defaultValue = "true") Boolean  isActive,
+			@RequestParam(value = "name", defaultValue = "") String  name
+			){
 		
 		if(type.equals("all")) {
 			//get all users
@@ -43,8 +47,9 @@ public class users {
 			return ResponseEntity.ok(apiResponse);
 		}
 		else if(type.equals("page")){
-			Pageable pageable = PageRequest.of(offset, limit, Sort.by("userId").ascending());
-			List<UserModel> users = userService.findAll(pageable);
+			Pageable pageable = PageRequest.of(offset, limit,
+					ascending?Sort.by("userId").ascending():Sort.by("userId").descending());
+			List<UserModel> users = userService.findAll(pageable, isActive, name);
 			ApiResponseWithMeta apiResponse = new ApiResponseWithMeta(false, "ok", users, pageable);
 			return ResponseEntity.ok(apiResponse);			
 		}

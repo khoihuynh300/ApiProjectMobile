@@ -39,8 +39,13 @@ public class inns {
 	public ResponseEntity<?> getInns(
 			@RequestParam(value = "type", defaultValue = "page") String type,
 			@RequestParam(value = "offset", defaultValue = "0") Integer  offset,
-			@RequestParam(value = "limit", defaultValue = "10") Integer  limit){
-		
+			@RequestParam(value = "limit", defaultValue = "10") Integer  limit,
+			@RequestParam(value = "ascending", defaultValue = "true") Boolean  ascending,
+			@RequestParam(value = "isDeleted", defaultValue = "false") Boolean  isDeleted,
+			@RequestParam(value = "Address", defaultValue = "") String  address,
+			@RequestParam(value = "isConfirmed", defaultValue = "all") String  isConfirmed
+			){
+		 
 		if(type.equals("all")) {
 			//get all 
 			List<InnModel> inns = iInnService.getAllInns();
@@ -49,7 +54,7 @@ public class inns {
 		}
 		else if(type.equals("page")){
 			Pageable pageable = PageRequest.of(offset, limit, Sort.by("innId").ascending());
-			List<InnModel> inn = iInnService.findAll(pageable);
+			List<InnModel> inn = iInnService.findAll(isDeleted, address, isConfirmed, pageable);
 			ApiResponseWithMeta apiResponse = new ApiResponseWithMeta(false, "ok", inn, pageable);
 			return ResponseEntity.ok(apiResponse);			
 		}

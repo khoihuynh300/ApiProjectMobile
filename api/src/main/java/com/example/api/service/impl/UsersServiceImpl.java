@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,29 @@ public class UsersServiceImpl implements IUsersService {
 	public List<UserModel> findAll() {
 		
 		List<Users> usersList= usersRepository.findAll();
+		
+		List<UserModel> userModelList = new ArrayList<>();
+		for (Users user : usersList) {
+			UserModel userModel = new UserModel();
+			BeanUtils.copyProperties(user, userModel);
+			userModelList.add(userModel);
+		}
+		
+		return userModelList;
+	}
+
+	@Override
+	public List<UserModel> findAll(Pageable pageable, Boolean isActive, String name) {
+		List<Users> usersList;
+		name = name.trim();
+		if(name.equals("")) {
+			// chỉ tìm theo isActive
+			usersList = usersRepository.findByActive(isActive,pageable).getContent();			
+		}
+		else {
+			// tìm theo name và isActive
+			usersList = usersRepository.findByFullnameContainingAndActive(name, isActive,pageable).getContent();			
+		}
 		
 		List<UserModel> userModelList = new ArrayList<>();
 		for (Users user : usersList) {

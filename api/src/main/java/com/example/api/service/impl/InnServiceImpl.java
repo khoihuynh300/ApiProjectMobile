@@ -14,6 +14,7 @@ import com.example.api.entity.Inn;
 import com.example.api.model.InnModel;
 import com.example.api.repository.InnRepository;
 import com.example.api.service.IInnService;
+import com.example.api.service.IUsersService;
 import com.example.api.service.ImageInnService;
 
 @Service
@@ -22,7 +23,7 @@ public class InnServiceImpl implements IInnService{
     InnRepository innRepository;
 	
 	@Autowired
-	UsersServiceImpl usersServiceImpl;
+	IUsersService usersServiceImpl;
 	
 	@Autowired
 	ImageInnService imageInnService;
@@ -91,6 +92,48 @@ public class InnServiceImpl implements IInnService{
 	@Override
 	public List<InnModel> findAll(Pageable pageable) {
 		List<Inn> innList = innRepository.findAll(pageable).getContent();
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
+	}
+	
+	@Override
+	public List<InnModel> findAll(Boolean isDeleted,String address, String isConfirmed, Pageable pageable) {
+		address = address.trim();
+		List<Inn> innList;
+		
+		if(address.equals("")) {
+			// search without address
+			if(isConfirmed.equals("all")) {
+				innList = innRepository.findByIsDeleted(isDeleted,pageable).getContent();								
+			}
+			else {
+				innList = innRepository.findByIsDeletedAndIsConfirmed(isDeleted, Boolean.valueOf(isConfirmed), pageable).getContent();	
+			}
+		}
+		else {
+			//search with contain address
+			if(isConfirmed.equals("all")) {
+				innList = innRepository.findByAddressContainingAndIsDeleted(address,isDeleted,pageable).getContent();					
+			}
+			else {
+				innList = innRepository.findByAddressContainingAndIsDeletedAndIsConfirmed(address, isDeleted,Boolean.valueOf(isConfirmed), pageable).getContent();
+			}
+		}
 		
 		List<InnModel> innModelList = new ArrayList<>();
 		

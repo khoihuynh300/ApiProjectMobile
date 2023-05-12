@@ -17,4 +17,5 @@ public interface IInnService {
 	<S extends Inn> S save(S entity);
 	Optional<Inn> findById(Long id);
 	List<InnModel> findAll(Pageable pageable);
+	List<InnModel> findAll(Boolean isDeleted, String address, String isConfirmed, Pageable pageable);
 }
