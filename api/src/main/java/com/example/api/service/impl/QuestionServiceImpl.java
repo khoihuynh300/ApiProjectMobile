@@ -64,15 +64,16 @@ public class QuestionServiceImpl implements IQuestionService {
 	}
 
 	@Override
-	public QuestionModel findById(Long id) {
-		QuestionModel questionModel = new QuestionModel();
+	public Question findById(Long id) {
+//		QuestionModel questionModel = new QuestionModel();
 		Optional<Question> questionEntity = questionRepository.findById(id);
 		if (questionEntity.isPresent()) {
-			BeanUtils.copyProperties(questionEntity.get(), questionModel);
-			return questionModel;
+//			BeanUtils.copyProperties(questionEntity.get(), questionModel);
+			return questionEntity.get();
 		}else {
-			questionModel.setTitle("Không tìm thấy!");
-			return questionModel;
+			Question question2 = new Question();
+			question2.setTitle("Không tìm thấy!");
+			return question2;
 		}
 	}
 

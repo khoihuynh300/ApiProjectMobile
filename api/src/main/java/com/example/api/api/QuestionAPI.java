@@ -70,20 +70,20 @@ public class QuestionAPI {
 		return questionList;
 	}
 
-	@DeleteMapping("deleteQuestion/{id}")
-	public ResponseEntity<Object> deleteQuestion(@PathVariable("id") Long id) {
-		try {
-			QuestionModel questionModel = questionService.findById(id);
-			if (!questionModel.getTitle().equals("Không tìm thấy!")) {
-				questionService.deleteById(id);
-				return ResponseEntity.ok(ResponseService.get(false, "Xóa câu hỏi thành công!"));
-			} else {
-				return ResponseEntity.ok(ResponseService.get(true, "Không tìm thấy câu hỏi!"));
-			}
-		} catch (Exception e) {
-			return ResponseEntity.ok(ResponseService.get(true, "Xóa câu hỏi thất bại!"));
-		}
-	}
+//	@DeleteMapping("deleteQuestion/{id}")
+//	public ResponseEntity<Object> deleteQuestion(@PathVariable("id") Long id) {
+//		try {
+//			QuestionModel questionModel = questionService.findById(id);
+//			if (!questionModel.getTitle().equals("Không tìm thấy!")) {
+//				questionService.deleteById(id);
+//				return ResponseEntity.ok(ResponseService.get(false, "Xóa câu hỏi thành công!"));
+//			} else {
+//				return ResponseEntity.ok(ResponseService.get(true, "Không tìm thấy câu hỏi!"));
+//			}
+//		} catch (Exception e) {
+//			return ResponseEntity.ok(ResponseService.get(true, "Xóa câu hỏi thất bại!"));
+//		}
+//	}
 
 //	@PutMapping("updateQuestion")
 //	public ResponseEntity<Object> updateQuestion(@RequestBody QuestionModel question) {

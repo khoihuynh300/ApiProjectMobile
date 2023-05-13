@@ -18,7 +18,7 @@ public interface IQuestionService {
 
 	List<QuestionModel> findAll();
 
-	QuestionModel findById(Long id);
+	Question findById(Long id);
 
 	void deleteById(Long id);
 
