@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.catalina.connector.Response;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -73,6 +74,10 @@ public class users {
 	
 	@PostMapping("create")
 	public ResponseEntity<?> createUser(@RequestBody Users user){
+		// check user có tồn tại
+		if(userService.findByEmail(user.getEmail()).isPresent()) {
+			return ResponseEntity.ok(new ApiResponseSimple(true, "tài khoản đã tồn tại"));
+		}
 		userService.save(user);
 		return ResponseEntity.ok(new ApiResponseSimple(false, "created"));
 	}
