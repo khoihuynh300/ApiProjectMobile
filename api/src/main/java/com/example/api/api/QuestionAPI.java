@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.entity.Question;
 import com.example.api.entity.Users;
+import com.example.api.model.MessageModel;
 import com.example.api.model.QuestionModel;
 import com.example.api.service.IQuestionService;
 import com.example.api.service.IUsersService;
@@ -83,28 +85,28 @@ public class QuestionAPI {
 		}
 	}
 
-	@PutMapping("updateQuestion")
-	public ResponseEntity<Object> updateQuestion(@RequestBody QuestionModel question) {
-		try {
-			QuestionModel questionModel = questionService.findById(question.getQuestionId());
-			if (!questionModel.getTitle().equals("Không tìm thấy!")) {
-				Optional<Users> userAskedOptional = userService.findById(questionModel.getAskedId());
-				Optional<Users> userAnsweredOptional = userService.findById(questionModel.getAnswererId());
-				Users userAsked = userAskedOptional.get();
-				Users userAnswered= new Users();
-				if (userAnsweredOptional.isPresent()) {
-					userAnswered = userAnsweredOptional.get();
-				} else {
-					userAnswered.setActive(null);
-				}
-				questionModel.setTitle(question.getTitle());
-				questionService.updateQuestion(questionModel,userAsked,userAnswered);
-				return ResponseEntity.ok(ResponseService.get(false, "Cập nhật câu hỏi thành công!"));
-			} else {
-				return ResponseEntity.ok(ResponseService.get(true, "Không tìm thấy câu hỏi!"));
-			}
-		} catch (Exception e) {
-			return ResponseEntity.ok(ResponseService.get(true, "Cập nhật câu hỏi thất bại!"));
-		}
-	}
+//	@PutMapping("updateQuestion")
+//	public ResponseEntity<Object> updateQuestion(@RequestBody QuestionModel question) {
+//		try {
+//			QuestionModel questionModel = questionService.findById(question.getQuestionId());
+//			if (!questionModel.getTitle().equals("Không tìm thấy!")) {
+//				Optional<Users> userAskedOptional = userService.findById(questionModel.getAskedId());
+//				Optional<Users> userAnsweredOptional = userService.findById(questionModel.getAnswererId());
+//				Users userAsked = userAskedOptional.get();
+//				Users userAnswered= new Users();
+//				if (userAnsweredOptional.isPresent()) {
+//					userAnswered = userAnsweredOptional.get();
+//				} else {
+//					userAnswered.setActive(null);
+//				}
+//				questionModel.setTitle(question.getTitle());
+//				questionService.updateQuestion(questionModel,userAsked,userAnswered);
+//				return ResponseEntity.ok(ResponseService.get(false, "Cập nhật câu hỏi thành công!"));
+//			} else {
+//				return ResponseEntity.ok(ResponseService.get(true, "Không tìm thấy câu hỏi!"));
+//			}
+//		} catch (Exception e) {
+//			return ResponseEntity.ok(ResponseService.get(true, "Cập nhật câu hỏi thất bại!"));
+//		}
+//	}
 }

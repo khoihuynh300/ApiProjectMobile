@@ -10,4 +10,7 @@ public interface MessageService {
 	<S extends Message> S save(S entity);
 //	public List<MessageModel> getAllMessageByInnId(Long innId);
 //	public void createMessageOfInn(MessageModel messageModel);
+
+	List<MessageModel> getAllMessageByQuestionId(Long questionId);
+
 }
