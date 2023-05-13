@@ -39,7 +39,7 @@ public class users {
 			@RequestParam(value = "isActive", defaultValue = "true") Boolean  isActive,
 			@RequestParam(value = "name", defaultValue = "") String  name
 			){
-		
+		 
 		if(type.equals("all")) {
 			//get all users
 			List<UserModel> users = userService.findAll();

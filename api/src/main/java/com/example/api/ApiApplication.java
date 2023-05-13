@@ -51,6 +51,7 @@ public class ApiApplication {
 		    	user.setPassword("admin");
 		    	user.setRole("manager");
 		    	user.setActive(true);
+		    	user.setGender(Gender.MALE);
 				usersService.save(user);
 				
 				// thêm dữ liệu để demo, test
