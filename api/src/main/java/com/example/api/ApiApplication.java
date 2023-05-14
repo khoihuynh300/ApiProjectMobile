@@ -328,22 +328,25 @@ public class ApiApplication {
 				messageService.save(ask);
 				
 				Message answer = new Message();
-				answer.setMessage("Em đến Văn phòng khoa để được hướng dẫn nhé!");
+				answer.setMessage("Em đến văn phòng khoa để được hướng dẫn nhé!");
 				answer.setQuestionId(question);
 				answer.setUserId(tuvanvien1);
 				messageService.save(answer);
 				
+				question.setAnswererId(tuvanvien1);
+				iQuestionService.save(question);
+				
 				
 				//Question2
 				Question question2 = new Question();
-				question2.setAskedId(sinhvien2);
+				question2.setAskedId(sinhvien1);
 				question2.setTitle("Thắc mắc thời hạn nộp bằng quy đổi tín chỉ anh văn");
 				iQuestionService.save(question2);
 				
 				Message ask2 = new Message();
 				ask2.setMessage("Em chào thầy cô, em là sinh viên K20 em muốn biết về thời hạn nộp bằng anh văn trong kỳ này và quy đổi tín chỉ anh văn sẽ trừ bao nhiêu điểm ạ!");
 				ask2.setQuestionId(question2);
-				ask2.setUserId(sinhvien2);
+				ask2.setUserId(sinhvien1);
 				
 				messageService.save(ask2);
 				
@@ -352,6 +355,9 @@ public class ApiApplication {
 				answer2.setQuestionId(question2);
 				answer2.setUserId(tuvanvien2);
 				messageService.save(answer2);
+
+				question2.setAnswererId(tuvanvien2);
+				iQuestionService.save(question2);
 				
 				//Question3
 				Question question3 = new Question();
@@ -371,25 +377,44 @@ public class ApiApplication {
 				answer3.setQuestionId(question3);
 				answer3.setUserId(tuvanvien2);
 				messageService.save(answer3);
+
+				question3.setAnswererId(tuvanvien2);
+				iQuestionService.save(question3);
 				
 				//Question4
 				Question question4 = new Question();
 				question4.setAskedId(sinhvien3);
-				question4.setTitle("Miễn thi AVDR");
+				question4.setTitle("Học phí khi nộp bằng Toeic để chuyển điểm các học phần Anh Văn");
 				iQuestionService.save(question4);
 				
 				Message ask4 = new Message();
-				ask4.setMessage("Em chào phòng Đào Tạo ạ. Em có 1 câu hỏi là hiện tại e thấy có thông báo là bằng Aptis vẫn còn được chấp nhận để quy đổi miễn thi avdr đúng không ạ");
+				ask4.setMessage("Em là sinh viên K20 khoa CNTT, em muốn hỏi là khi nộp bằng Toeic để chuyển điểm các học phần Anh Văn thì có phải đóng học phí cho các học phần đó không ạ");
 				ask4.setQuestionId(question4);
 				ask4.setUserId(sinhvien3);
 				
 				messageService.save(ask4);
 				
 				Message answer4 = new Message();
-				answer4.setMessage("Em chờ thông báo từ website phòng đạo tạo nha");
+				answer4.setMessage("Đóng học phí chứ em, đóng 50% nha");
 				answer4.setQuestionId(question4);
 				answer4.setUserId(tuvanvien2);
 				messageService.save(answer4);
+
+				question4.setAnswererId(tuvanvien2);
+				iQuestionService.save(question4);
+				
+				//Question5
+				Question question5 = new Question();
+				question5.setAskedId(sinhvien4);
+				question5.setTitle("Quên mật khẩu mail trường");
+				iQuestionService.save(question5);
+				
+				Message ask5 = new Message();
+				ask5.setMessage("Dạ thầy cô cho em hỏi là em bị quên mật khẩu Mail của trường mình, và em có thử bấm vào lấy lại mật khẩu thì nó hiện như hình bên dưới. Vậy bây giờ em phải làm như thế nào để có thể lấy lại được mật khẩu Mail của mình vậy ạ. Em cảm ơn thầy cô!!");
+				ask5.setQuestionId(question5);
+				ask5.setUserId(sinhvien4);
+				
+				messageService.save(ask5);
 				
 	    	}
 	    }
