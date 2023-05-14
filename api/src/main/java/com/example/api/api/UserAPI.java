@@ -61,7 +61,10 @@ public class UserAPI {
 		if (usersOP.isEmpty() || !BCrypt.checkpw(password, usersOP.get().getPassword())) {
 			return ResponseEntity.ok(ResponseService.get(true, "Tài khoản hoặc mật khẩu không chính xác"));
 		}
-
+		if(!usersOP.get().getActive()) {
+			return ResponseEntity.ok(ResponseService.get(true, "Tài khoản này đã bị khóa"));
+		}
+ 
 		BeanUtils.copyProperties(usersOP.get(), userModel);
 
 		HashMap<String, Object> map = ResponseService.get(false, "Đăng nhập thành công");
@@ -178,7 +181,8 @@ public class UserAPI {
 				return ResponseEntity.ok(ResponseService.get(true, "Upload thất bại: File trống!"));
 			}
 		}
-		userService.save(user);
+//		user.setPassword(null);
+		userService.save2(user);
 
 		UserModel userModel = new UserModel();
 		BeanUtils.copyProperties(user, userModel);

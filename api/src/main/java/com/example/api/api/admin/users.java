@@ -67,7 +67,7 @@ public class users {
 		
 		Users user = userOptional.get();
 		user.setActive(false);
-		userService.save(user);
+		userService.save2(user);
 		
 		return ResponseEntity.ok(new ApiResponseSimple(false, "locked"));	
 	}

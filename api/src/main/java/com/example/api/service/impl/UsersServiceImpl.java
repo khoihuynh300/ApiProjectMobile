@@ -31,6 +31,11 @@ public class UsersServiceImpl implements IUsersService {
 		
 		return usersRepository.save(entity);
 	}
+	
+	@Override
+	public <S extends Users> S save2(S entity) {
+		return usersRepository.save(entity);
+	}
 
 	@Override
 	public long count() {
