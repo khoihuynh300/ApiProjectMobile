@@ -92,4 +92,18 @@ public class QuestionServiceImpl implements IQuestionService {
 		}
 		questionRepository.save(questionEntity);
 	}
+
+	@Override
+	public List<QuestionModel> findByAskedId(Users askedId) {
+		List<QuestionModel> listQuestionsModel = new ArrayList<>();
+		List<Question> listQuestionsEntity =  questionRepository.findByAskedId(askedId);
+		for (Question question : listQuestionsEntity) {
+			QuestionModel newQuestionModel = new QuestionModel();
+			BeanUtils.copyProperties(question, newQuestionModel);
+			listQuestionsModel.add(newQuestionModel);
+		}
+		return listQuestionsModel;
+	}
+	
+	
 }

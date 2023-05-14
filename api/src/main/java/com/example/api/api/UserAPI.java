@@ -20,8 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.api.entity.Users;
 import com.example.api.entity.Users.Gender;
 import com.example.api.model.InnModel;
+import com.example.api.model.MessageModel;
+import com.example.api.model.QuestionModel;
 import com.example.api.model.UserModel;
 import com.example.api.service.IInnService;
+import com.example.api.service.IQuestionService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MailService;
 import com.example.api.service.OtpService;
@@ -32,6 +35,9 @@ import com.example.api.utils.apiResponse.ApiResponseWithResult;
 @RestController
 @RequestMapping("api/")
 public class UserAPI {
+
+	@Autowired
+	IQuestionService iQuestionService;
 	
 	@Autowired
 	IInnService iInnService;
@@ -257,6 +263,16 @@ public class UserAPI {
 
 		List<InnModel> innList = iInnService.findByProposedById(users);
 		ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", innList);
+		return ResponseEntity.ok(apiResponse);
+	}
+	
+	@GetMapping("users/{user_id}/questions")
+	public ResponseEntity<?> getQuestionsByUserId(@PathVariable("user_id") Long userId){
+
+		Users users = userService.findById(userId).get();
+
+		List<QuestionModel> messages = iQuestionService.findByAskedId(users);
+		ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", messages);
 		return ResponseEntity.ok(apiResponse);
 	}
 }

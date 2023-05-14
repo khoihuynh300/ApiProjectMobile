@@ -24,4 +24,6 @@ public interface IQuestionService {
 
 	void updateQuestion(QuestionModel questionModel, Users userAsked, Users userAnswered);
 
+	List<QuestionModel> findByAskedId(Users askedId);
+
 }
