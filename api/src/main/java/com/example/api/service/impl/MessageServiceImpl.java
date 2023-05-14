@@ -73,19 +73,8 @@ public class MessageServiceImpl implements MessageService{
 //        return messageModels;
 //    }
 //	
-//	@Override
-//	public void createMessageOfInn(MessageModel messageModel) {
-//		Message message = new Message();
-//		message.setMessage(messageModel.getMessage());
-//		message.setImage(messageModel.getImage());
-//		message.setCreatedAt(messageModel.getCreatedAt());
-//		message.setUpdatedAt(messageModel.getUpdatedAt());
-//		message.setUserId(iUsersService.findById(messageModel.getUserId()).get());
-//		
-//		Inn inn = new Inn();
-//		inn.setInnId(messageModel.getInnId());
-//		message.setInnId(inn);
-//		
-//		messageRepository.save(message);
-//	}
+	@Override
+	public void addMessage(Message message) {
+		messageRepository.save(message);
+	}
 }

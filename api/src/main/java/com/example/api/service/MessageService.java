@@ -13,4 +13,6 @@ public interface MessageService {
 
 	List<MessageModel> getAllMessageByQuestionId(Long questionId);
 
+	void addMessage(Message message);
+
 }
