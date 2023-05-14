@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import org.hibernate.annotations.Nationalized;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,10 +40,11 @@ public class Question implements Serializable {
 	private Long questionId;
 	
 	@Column(name = "Title")
+	@Nationalized 
 	private String title;
 	
 	@Column(name = "ViewCount")
-	private Double view;
+	private Double view = (double) 0;
 	
 	private Date createdAt;
 	private Date updatedAt;

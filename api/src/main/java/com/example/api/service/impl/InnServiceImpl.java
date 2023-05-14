@@ -6,13 +6,20 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.api.entity.Inn;
+import com.example.api.entity.Users;
 import com.example.api.model.InnModel;
 import com.example.api.repository.InnRepository;
 import com.example.api.service.IInnService;
+import com.example.api.service.IUsersService;
 import com.example.api.service.ImageInnService;
+import com.example.api.utils.apiResponse.ApiResponseSimple;
+import com.example.api.utils.apiResponse.ApiResponseWithResult;
 
 @Service
 public class InnServiceImpl implements IInnService{
@@ -20,7 +27,7 @@ public class InnServiceImpl implements IInnService{
     InnRepository innRepository;
 	
 	@Autowired
-	UsersServiceImpl usersServiceImpl;
+	IUsersService usersServiceImpl;
 	
 	@Autowired
 	ImageInnService imageInnService;
@@ -89,10 +96,129 @@ public class InnServiceImpl implements IInnService{
 			InnModel innModel = new InnModel();
 			BeanUtils.copyProperties(inn, innModel);
 			innModel.setProposed(inn.getProposedById().getFullname());
+			innModel.setProposedId(inn.getProposedById().getUserId());
 			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
 			innModels.add(innModel);
 		}
 		
 		return innModels;
 	}
+
+	@Override
+	public <S extends Inn> S save(S entity) {
+		return innRepository.save(entity);
+	}
+
+	@Override
+	public Optional<Inn> findById(Long id) {
+		return innRepository.findById(id);
+	}
+
+	@Override
+	public List<InnModel> findAll(Pageable pageable) {
+		List<Inn> innList = innRepository.findAll(pageable).getContent();
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
+	}
+	
+	@Override
+	public List<InnModel> findAll(Boolean isDeleted,String address, String isConfirmed, Pageable pageable) {
+		address = address.trim();
+		List<Inn> innList;
+		
+		if(address.equals("")) {
+			// search without address
+			if(isConfirmed.equals("all")) {
+				innList = innRepository.findByIsDeleted(isDeleted,pageable).getContent();								
+			}
+			else {
+				innList = innRepository.findByIsDeletedAndIsConfirmed(isDeleted, Boolean.valueOf(isConfirmed), pageable).getContent();	
+			}
+		}
+		else {
+			//search with contain address
+			if(isConfirmed.equals("all")) {
+				innList = innRepository.findByAddressContainingAndIsDeleted(address,isDeleted,pageable).getContent();					
+			}
+			else {
+				innList = innRepository.findByAddressContainingAndIsDeletedAndIsConfirmed(address, isDeleted,Boolean.valueOf(isConfirmed), pageable).getContent();
+			}
+		}
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
+	}
+
+	@Override
+	public List<InnModel> findByProposedById(Users users) {
+		List<Inn> innList = innRepository.findByProposedById(users);
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
+	}
+	
+	@Override
+	public ResponseEntity<?> addByManager(InnModel innModel) {
+		/*
+		 * hàm này dành cho người dùng role manager nên isConfirmed = true, ConfirmedId
+		 * là id người dùng có role manager, ProposedById = null
+		 */
+		
+		Inn inn = new Inn();
+		BeanUtils.copyProperties(innModel, inn);
+		Users users = usersServiceImpl.findById(innModel.getProposedId()).get();
+
+		inn.setProposedById(users);
+		inn.setConfirmedById(users);
+		inn.setIsConfirmed(true);
+		innRepository.save(inn);
+		
+
+    	return ResponseEntity.ok(new ApiResponseWithResult(true, "created", inn));
+	}
+	
+	
 }

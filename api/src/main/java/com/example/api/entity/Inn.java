@@ -59,6 +59,9 @@ public class Inn implements Serializable {
 	@Nationalized 
 	private String describe;
 	
+	@Column(name = "isDeleted")
+	private Boolean isDeleted = false;
+	
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -77,7 +80,7 @@ public class Inn implements Serializable {
 	private Users proposedById;
 
 	@Column(name = "IsConfirmed")
-	private Boolean isConfirmed;
+	private Boolean isConfirmed = false;
 	
 	@ManyToOne
 	@JoinColumn(name = "ConfirmedById")

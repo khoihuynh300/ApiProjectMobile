@@ -1,4 +1,4 @@
-package com.example.api.model;
+package com.example.api.service.impl;
 
 import java.util.Date;
 
@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageModel {
+public class MessageModel2 {
 	private Long messageId;
 	private String message;
 	private String image;
 	private Date createdAt;
 	private Date updatedAt;
 	private String username;
-	private Users userId;
-	private Question questionId;
+	private Long userId;
+	private Long questionId;
 }

@@ -30,4 +30,9 @@ public class images {
 
 		return "http://" + serverAddress + ":" + port + "/api/upload/default-avatar.png";
 	}
+	
+	public static String getImage(String name) {
+
+		return "http://" + serverAddress + ":" + port + "/api/upload/" + name;
+	}
 }

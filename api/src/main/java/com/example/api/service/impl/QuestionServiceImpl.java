@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements IQuestionService {
 		for (Question question : listQuestionsEntity) {
 			QuestionModel newQuestionModel = new QuestionModel();
 			BeanUtils.copyProperties(question, newQuestionModel);
-			newQuestionModel.setAskedId(question.getAskedId().getUserId());
+//			newQuestionModel.setAskedId(question.getAskedId().getUserId());
 //			newQuestionModel.setAnswererId(question.getAnswererId().getUserId());
 			listQuestionsModel.add(newQuestionModel);
 		}
@@ -64,15 +64,16 @@ public class QuestionServiceImpl implements IQuestionService {
 	}
 
 	@Override
-	public QuestionModel findById(Long id) {
-		QuestionModel questionModel = new QuestionModel();
+	public Question findById(Long id) {
+//		QuestionModel questionModel = new QuestionModel();
 		Optional<Question> questionEntity = questionRepository.findById(id);
 		if (questionEntity.isPresent()) {
-			BeanUtils.copyProperties(questionEntity.get(), questionModel);
-			return questionModel;
+//			BeanUtils.copyProperties(questionEntity.get(), questionModel);
+			return questionEntity.get();
 		}else {
-			questionModel.setTitle("Không tìm thấy!");
-			return questionModel;
+			Question question2 = new Question();
+			question2.setTitle("Không tìm thấy!");
+			return question2;
 		}
 	}
 

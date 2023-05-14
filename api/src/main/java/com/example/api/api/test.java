@@ -10,14 +10,13 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +35,9 @@ public class test {
 
 	@Autowired
 	IUsersService userService;
+	
+	@Autowired
+	private SimpMessagingTemplate messagingTemplate;
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -115,6 +117,18 @@ public class test {
 			System.err.println(e.toString());
 			return "Error while Sending Mail";
 		}
+	}
+	
+	@PostMapping("/sendAll")
+	public ResponseEntity<Object> Message(@RequestParam String m) {
+		messagingTemplate.convertAndSend("/topic/messages",m);
+		return ResponseEntity.ok("a");
+	}
+	
+	@PostMapping("/send")
+	public ResponseEntity<Object> Message1(@RequestParam String m) {
+		messagingTemplate.convertAndSend("/topic/messages/user1",m);
+		return ResponseEntity.ok("a");
 	}
 
 }
