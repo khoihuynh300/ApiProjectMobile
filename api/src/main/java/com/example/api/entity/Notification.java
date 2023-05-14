@@ -40,6 +40,9 @@ public class Notification implements Serializable {
 	@Column(name = "NotificationLink")
 	private String notificationLink;
 	
+	@Column(name="isViewed")
+	private Boolean isViewed;
+	
 	private Date createdAt;
 	private Date updatedAt;
 	
