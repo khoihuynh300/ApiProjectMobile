@@ -74,16 +74,9 @@ public class inns {
 	}
 	
 	@PostMapping("add")
-	public ResponseEntity<?> addInn(@RequestBody Inn inn){
-		/*
-		 * api này dành cho người dùng role manager nên isConfirmed = true, ConfirmedId
-		 * là id người dùng có role manager, ProposedById = null
-		 */
-		if(inn.getIsConfirmed() && inn.getConfirmedById().getRole().equals("manager") && inn.getProposedById() == null) {
-			iInnService.save(inn);
-			return ResponseEntity.ok(new ApiResponseSimple(false,  "created"));	
-		}
-		return ResponseEntity.ok(new ApiResponseSimple(true,  "invalid input"));	
+	public ResponseEntity<?> addInn(@RequestBody InnModel innModel){
+		
+		return iInnService.addByManager(innModel);
 	}
 	
 	@DeleteMapping("delete/{id}")

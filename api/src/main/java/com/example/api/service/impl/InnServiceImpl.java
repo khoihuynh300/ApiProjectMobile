@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.api.entity.Inn;
@@ -17,6 +18,8 @@ import com.example.api.repository.InnRepository;
 import com.example.api.service.IInnService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.ImageInnService;
+import com.example.api.utils.apiResponse.ApiResponseSimple;
+import com.example.api.utils.apiResponse.ApiResponseWithResult;
 
 @Service
 public class InnServiceImpl implements IInnService{
@@ -177,6 +180,25 @@ public class InnServiceImpl implements IInnService{
 		return innModelList;
 	}
 	
+	@Override
+	public ResponseEntity<?> addByManager(InnModel innModel) {
+		/*
+		 * hàm này dành cho người dùng role manager nên isConfirmed = true, ConfirmedId
+		 * là id người dùng có role manager, ProposedById = null
+		 */
+		
+		Inn inn = new Inn();
+		BeanUtils.copyProperties(innModel, inn);
+		Users users = usersServiceImpl.findById(innModel.getProposedId()).get();
+
+		inn.setProposedById(users);
+		inn.setConfirmedById(users);
+		inn.setIsConfirmed(true);
+		innRepository.save(inn);
+		
+
+    	return ResponseEntity.ok(new ApiResponseWithResult(true, "created", inn));
+	}
 	
 	
 }

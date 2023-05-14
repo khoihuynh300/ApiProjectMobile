@@ -26,4 +26,6 @@ public interface IUsersService {
 
 	List<UserModel> findAll(Pageable pageable, Boolean isActive, String name);
 
+	<S extends Users> S save2(S entity);
+
 }

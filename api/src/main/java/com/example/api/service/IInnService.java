@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import com.example.api.entity.Inn;
 import com.example.api.entity.Users;
@@ -20,4 +21,5 @@ public interface IInnService {
 	List<InnModel> findAll(Pageable pageable);
 	List<InnModel> findAll(Boolean isDeleted, String address, String isConfirmed, Pageable pageable);
 	List<InnModel> findByProposedById(Users users);
+	ResponseEntity<?> addByManager(InnModel innModel);
 }

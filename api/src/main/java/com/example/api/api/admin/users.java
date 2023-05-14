@@ -66,13 +66,17 @@ public class users {
 		
 		Users user = userOptional.get();
 		user.setActive(false);
-		userService.save(user);
+		userService.save2(user);
 		
 		return ResponseEntity.ok(new ApiResponseSimple(false, "locked"));	
 	}
 	
 	@PostMapping("create")
 	public ResponseEntity<?> createUser(@RequestBody Users user){
+		// check user có tồn tại
+		if(userService.findByEmail(user.getEmail()).isPresent()) {
+			return ResponseEntity.ok(new ApiResponseSimple(true, "tài khoản đã tồn tại"));
+		}
 		userService.save(user);
 		return ResponseEntity.ok(new ApiResponseSimple(false, "created"));
 	}

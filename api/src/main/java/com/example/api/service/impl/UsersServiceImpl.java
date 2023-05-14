@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -23,6 +24,15 @@ public class UsersServiceImpl implements IUsersService {
 
 	@Override
 	public <S extends Users> S save(S entity) {
+		if(!entity.getPassword().equals("") || entity.getPassword() != null) {
+			//Mã hóa password
+			entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt()));
+		}
+		return usersRepository.save(entity);
+	}
+	
+	@Override
+	public <S extends Users> S save2(S entity) {
 		return usersRepository.save(entity);
 	}
 

@@ -69,7 +69,7 @@ public class QuestionAPI {
 		}
 		return questionList;
 	}
-
+ 
 //	@DeleteMapping("deleteQuestion/{id}")
 //	public ResponseEntity<Object> deleteQuestion(@PathVariable("id") Long id) {
 //		try {

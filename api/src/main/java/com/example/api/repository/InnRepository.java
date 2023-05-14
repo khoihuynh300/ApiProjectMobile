@@ -23,4 +23,6 @@ public interface InnRepository extends JpaRepository<Inn, Long>{
 	Page<Inn> findByAddressContainingAndIsDeletedAndIsConfirmed(String address,Boolean isDeleted, Boolean isConfirmed, Pageable pageable);
 	Page<Inn> findByIsDeleted(Boolean isDeleted, Pageable pageable);
 	Page<Inn> findByIsDeletedAndIsConfirmed(Boolean isDeleted, Boolean isConfirmed, Pageable pageable);
+	
+	List<Inn> findByProposedById(Users users); 
 }
