@@ -48,7 +48,7 @@ public class inns {
 		 
 		if(type.equals("all")) {
 			//get all 
-			List<InnModel> inns = iInnService.getAllInns();
+			List<InnModel> inns = iInnService.getAllInnsUnConfirmed();
 			ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", inns);
 			return ResponseEntity.ok(apiResponse);
 		}

@@ -58,6 +58,9 @@ public class ApiApplication {
 				
 				// thêm dữ liệu để demo, test
 				// demo user
+//<<<<<<< HEAD
+//				createUserDataDemo(10);
+//=======
 //				createDataDemo(25);
 				
 				Users tuvanvien1 = new Users();
@@ -178,7 +181,6 @@ public class ApiApplication {
 				newInnModel.setPriceWater((double) 2000);
 				newInnModel.setSize(2);
 				newInnModel.setProposedId(sinhvien1.getUserId());
-				
 				
 				List<String> imageArr = new ArrayList<>() ;
 				imageArr.add("tro1.jpg");
@@ -425,6 +427,7 @@ public class ApiApplication {
 		    	user.setEmail("user" + String.valueOf(i) +"@gmail.com");
 		    	user.setFullname("Nguyễn Văn An" + String.valueOf(i) );
 		    	user.setPassword("12345");
+		    	user.setAvatar("ava.png");
 		    	if(i % 2 == 0)
 		    		user.setGender(Gender.MALE);
 		    	else
@@ -433,16 +436,13 @@ public class ApiApplication {
 				
 				// Thêm Inn
 				InnModel newInnModel = new InnModel();
-				newInnModel.setAddress("123 Linh Trung, Thủ Đức, TPHCM");
+				newInnModel.setAddress("123 Linh Trung, Thủ Đức");
 				newInnModel.setDescribe("Phòng trọ an ninh, cách trường ĐHSPKT 2km");
 				newInnModel.setPhoneNumber("0123456789");
 				newInnModel.setPrice((double) 2000000);
 				newInnModel.setPriceELec((double) 2000);
 				newInnModel.setPriceWater((double) 2000);
 				newInnModel.setSize(2);
-				newInnModel.setProposedId(user.getUserId()/5 + 2);
-				
-				
 				List<String> imageArr = new ArrayList<>() ;
 				imageArr.add("Tro15.png");
 				imageArr.add("Tro16.png");

@@ -52,7 +52,8 @@ public class CommentInnAPI {
 				return new ResponseEntity<>("Object already exists", HttpStatus.CONFLICT);
 			}
 			commentInnService.createCommentOfInn(commentInnModel);
-			return new ResponseEntity<>("Success", HttpStatus.CREATED);
+			List<CommentInnModel> commentInnModels = commentInnService.getAllCommentByInnId(commentInnModel.getInnId());
+			return new ResponseEntity<CommentInnModel>(commentInnModels.get(commentInnModels.size() - 1), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

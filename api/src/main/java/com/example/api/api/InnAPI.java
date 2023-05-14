@@ -37,8 +37,18 @@ public class InnAPI {
 	ImageInnService imageInnService;
 
 	@GetMapping("inns")
-	public ResponseEntity<?> getAllInns() {
-		List<InnModel> inns = iInnService.getAllInns();
+	public ResponseEntity<?> getAllInnsConfirmed() {
+		List<InnModel> inns = iInnService.getAllInnsConfirmed();
+		if (inns.size() > 0) {
+			return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("inns/unConfirmed")
+	public ResponseEntity<?> getAllInnsUnConfirmed() {
+		List<InnModel> inns = iInnService.getAllInnsUnConfirmed();
 		if (inns.size() > 0) {
 			return new ResponseEntity<List<InnModel>>(inns, HttpStatus.OK);
 		} else {
@@ -70,7 +80,7 @@ public class InnAPI {
 	}
 	
 	@PostMapping("inns/add")
-	public ResponseEntity<?> recommendInn(@ModelAttribute InnModel innModel, @RequestParam("imageFiles") MultipartFile[] files) {
+	public ResponseEntity<?> recommendInn(@ModelAttribute InnModel innModel, @RequestParam("imageFiles") List<MultipartFile> files) {
         try {
         	List<String> imageArr = new ArrayList<>();
         	if (files != null) {
@@ -84,9 +94,9 @@ public class InnAPI {
     			
         		iInnService.recommendInn(innModel, imageArr);
         		
-        		return new ResponseEntity<>("Success", HttpStatus.CREATED);
+        		return new ResponseEntity<InnModel>(innModel, HttpStatus.CREATED);
     		} else {
-    			return new ResponseEntity<>("No Object Available", HttpStatus.NOT_FOUND);
+    			return new ResponseEntity<>("No Image Available", HttpStatus.NOT_FOUND);
     		}
         } catch (Exception e)
         {

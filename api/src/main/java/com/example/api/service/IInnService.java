@@ -12,7 +12,8 @@ import com.example.api.entity.Users;
 import com.example.api.model.InnModel;
 
 public interface IInnService {
-	public List<InnModel> getAllInns();
+	public List<InnModel> getAllInnsConfirmed();
+	public List<InnModel> getAllInnsUnConfirmed();
 	public InnModel readInnById(Long _id);
 	public void recommendInn(InnModel innModel, List<String> imageArr);
 	public List<InnModel> searchInn(String address, Double gtePrice, Double ltePrice, int size);
