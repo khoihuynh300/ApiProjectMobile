@@ -372,6 +372,25 @@ public class ApiApplication {
 				answer3.setUserId(tuvanvien2);
 				messageService.save(answer3);
 				
+				//Question4
+				Question question4 = new Question();
+				question4.setAskedId(sinhvien3);
+				question4.setTitle("Miễn thi AVDR");
+				iQuestionService.save(question4);
+				
+				Message ask4 = new Message();
+				ask4.setMessage("Em chào phòng Đào Tạo ạ. Em có 1 câu hỏi là hiện tại e thấy có thông báo là bằng Aptis vẫn còn được chấp nhận để quy đổi miễn thi avdr đúng không ạ");
+				ask4.setQuestionId(question4);
+				ask4.setUserId(sinhvien3);
+				
+				messageService.save(ask4);
+				
+				Message answer4 = new Message();
+				answer4.setMessage("Em chờ thông báo từ website phòng đạo tạo nha");
+				answer4.setQuestionId(question4);
+				answer4.setUserId(tuvanvien2);
+				messageService.save(answer4);
+				
 	    	}
 	    }
 	    

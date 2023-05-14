@@ -2,11 +2,15 @@ package com.example.api.api;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,16 +19,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.api.entity.Users;
 import com.example.api.entity.Users.Gender;
+import com.example.api.model.InnModel;
 import com.example.api.model.UserModel;
+import com.example.api.service.IInnService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MailService;
 import com.example.api.service.OtpService;
 import com.example.api.service.ResponseService;
 import com.example.api.utils.images;
+import com.example.api.utils.apiResponse.ApiResponseWithResult;
 
 @RestController
 @RequestMapping("api/")
 public class UserAPI {
+	
+	@Autowired
+	IInnService iInnService;
+	
 	@Autowired
 	IUsersService userService;
 
@@ -41,8 +52,8 @@ public class UserAPI {
 		UserModel userModel = new UserModel();
 
 		Optional<Users> usersOP = userService.findByEmail(email);
-
-		if (usersOP.isEmpty() || !password.equals(usersOP.get().getPassword())) {
+		
+		if (usersOP.isEmpty() || !BCrypt.checkpw(password, usersOP.get().getPassword())) {
 			return ResponseEntity.ok(ResponseService.get(true, "Tài khoản hoặc mật khẩu không chính xác"));
 		}
 		if(!usersOP.get().getActive()) {
@@ -226,5 +237,26 @@ public class UserAPI {
 		userService.save(user);
 
 		return ResponseEntity.ok(ResponseService.get(false, "đã đặt lại mật khẩu"));
+	}
+	
+	@GetMapping("users/{user_id}")
+	public ResponseEntity<?> getUserById(@PathVariable("user_id") Long userId){
+		Users users = userService.findById(userId).get();
+		UserModel userModel = new UserModel();
+
+		BeanUtils.copyProperties(users, userModel);
+
+		ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", userModel);
+		return ResponseEntity.ok(apiResponse);
+	}
+
+	@GetMapping("users/{user_id}/inns")
+	public ResponseEntity<?> getInnsByUserId(@PathVariable("user_id") Long userId){
+
+		Users users = userService.findById(userId).get();
+
+		List<InnModel> innList = iInnService.findByProposedById(users);
+		ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", innList);
+		return ResponseEntity.ok(apiResponse);
 	}
 }

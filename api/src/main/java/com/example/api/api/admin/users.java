@@ -73,6 +73,10 @@ public class users {
 	
 	@PostMapping("create")
 	public ResponseEntity<?> createUser(@RequestBody Users user){
+		// check user có tồn tại
+		if(userService.findByEmail(user.getEmail()).isPresent()) {
+			return ResponseEntity.ok(new ApiResponseSimple(true, "tài khoản đã tồn tại"));
+		}
 		userService.save(user);
 		return ResponseEntity.ok(new ApiResponseSimple(false, "created"));
 	}
