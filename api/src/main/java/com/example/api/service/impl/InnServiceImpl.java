@@ -25,10 +25,30 @@ public class InnServiceImpl implements IInnService{
 	@Autowired
 	ImageInnService imageInnService;
 
-	@Override
-    public List<InnModel> getAllInns() {
+    public List<InnModel> getAllInns(Boolean isConfirmed){
         List<Inn> inns = innRepository.findAll();
-        return addMainImage(inns);
+        List<Inn> innsConfirmed = new ArrayList<>();
+        List<Inn> innsUnConfirmed = new ArrayList<>();
+        for (Inn inn : inns) {
+			if (inn.getIsConfirmed())
+				innsConfirmed.add(inn);
+			else
+				innsUnConfirmed.add(inn);
+		}
+        if(isConfirmed)
+        	return addMainImage(innsConfirmed);
+        else
+        	return addMainImage(innsUnConfirmed);
+    }
+    
+    @Override
+    public List<InnModel> getAllInnsConfirmed() {
+    	return getAllInns(true);
+    }
+    
+    @Override
+	public List<InnModel> getAllInnsUnConfirmed(){
+    	return getAllInns(false);
     }
 	
 	@Override
@@ -41,6 +61,7 @@ public class InnServiceImpl implements IInnService{
         	innModel.setImages(imageInnService.getAllImagesByInnId(_id));
         else
         	innModel.setImages(null);
+        innModel.setProposed(inn.get().getProposedById().getFullname());
         return innModel;
     }
 	
@@ -55,11 +76,10 @@ public class InnServiceImpl implements IInnService{
 		Inn inn = new Inn();
 		BeanUtils.copyProperties(innModel, inn);
 		inn.setProposedById(usersServiceImpl.findById(innModel.getProposedId()).get());
+		inn.setIsConfirmed(false);
 		innRepository.save(inn);
 		
-		List<Inn> inns = innRepository.findAll();
-		
-		imageInnService.addImageInn(imageArr, inns.get(inns.size() - 1));
+		imageInnService.addImageInn(imageArr, inn);
 	}
 	
 	private List<InnModel> addMainImage(List<Inn> inns)

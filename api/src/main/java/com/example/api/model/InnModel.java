@@ -28,6 +28,8 @@ public class InnModel {
 	private Date updatedAt;
 	private String proposed;
 	private Long proposedId;
+	private Boolean isConfirmed;
+	private Long confirmedById;
 	private ImageModel mainImage;
 	private List<ImageModel> images;
 }

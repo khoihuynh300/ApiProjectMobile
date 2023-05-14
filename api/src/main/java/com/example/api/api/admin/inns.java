@@ -20,7 +20,7 @@ public class inns {
 
 	@GetMapping
 	public ResponseEntity<?> getInns(){
-		List<InnModel> inns = iInnService.getAllInns();
+		List<InnModel> inns = iInnService.getAllInnsUnConfirmed();
 		return ResponseEntity.ok(inns);
 	}
 }
