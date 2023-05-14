@@ -51,11 +51,12 @@ public class ApiApplication {
 		    	user.setPassword("admin");
 		    	user.setRole("manager");
 		    	user.setActive(true);
+		    	user.setGender(Gender.MALE);
 				usersService.save(user);
 				
 				// thêm dữ liệu để demo, test
 				// demo user
-				createDataDemo(40);
+				createDataDemo(25);
 				
 				
 				
@@ -83,7 +84,7 @@ public class ApiApplication {
 				newInnModel.setPriceELec((double) 2000);
 				newInnModel.setPriceWater((double) 2000);
 				newInnModel.setSize(2);
-				newInnModel.setProposedId(user.getUserId());
+				newInnModel.setProposedId(user.getUserId()/5 + 2);
 				
 				
 				List<String> imageArr = new ArrayList<>() ;
@@ -93,7 +94,7 @@ public class ApiApplication {
 				
 				innService.recommendInn(newInnModel, imageArr);
 				
-				if(i < 20) {
+				if(i < 15) {
 					Users userAdmin = usersService.findById((long) 1).get();
 					Inn inn = innService.findById((long) i).get();
 					inn.setConfirmedById(userAdmin);
@@ -115,7 +116,7 @@ public class ApiApplication {
 				
 				messageService.save(ask);
 				
-				if(i < 20) {
+				if(i < 15) {
 					Message answer = new Message();
 					answer.setMessage("Câu trả lời");
 					answer.setQuestionId(question);

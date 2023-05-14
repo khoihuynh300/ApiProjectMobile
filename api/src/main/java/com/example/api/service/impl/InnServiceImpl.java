@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.api.entity.Inn;
+import com.example.api.entity.Users;
 import com.example.api.model.InnModel;
 import com.example.api.repository.InnRepository;
 import com.example.api.service.IInnService;
@@ -72,6 +73,7 @@ public class InnServiceImpl implements IInnService{
 			InnModel innModel = new InnModel();
 			BeanUtils.copyProperties(inn, innModel);
 			innModel.setProposed(inn.getProposedById().getFullname());
+			innModel.setProposedId(inn.getProposedById().getUserId());
 			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
 			innModels.add(innModel);
 		}
@@ -134,6 +136,28 @@ public class InnServiceImpl implements IInnService{
 				innList = innRepository.findByAddressContainingAndIsDeletedAndIsConfirmed(address, isDeleted,Boolean.valueOf(isConfirmed), pageable).getContent();
 			}
 		}
+		
+		List<InnModel> innModelList = new ArrayList<>();
+		
+		
+		for(Inn inn : innList) {
+			InnModel innModel = new InnModel();
+			BeanUtils.copyProperties(inn, innModel);
+			
+			innModel.setProposedId(inn.getProposedById().getUserId());
+			if(inn.getIsConfirmed()) {
+				innModel.setConfirmedById(inn.getConfirmedById().getUserId());				
+			}
+			innModel.setMainImage(imageInnService.getMainImageByInnId(inn.getInnId()));
+			innModel.setImages(imageInnService.getAllImagesByInnId(inn.getInnId()));
+			innModelList.add(innModel);
+		}
+		return innModelList;
+	}
+
+	@Override
+	public List<InnModel> findByProposedById(Users users) {
+		List<Inn> innList = innRepository.findByProposedById(users);
 		
 		List<InnModel> innModelList = new ArrayList<>();
 		

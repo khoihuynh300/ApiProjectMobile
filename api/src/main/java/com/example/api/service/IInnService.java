@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.api.entity.Inn;
+import com.example.api.entity.Users;
 import com.example.api.model.InnModel;
 
 public interface IInnService {
@@ -18,4 +19,5 @@ public interface IInnService {
 	Optional<Inn> findById(Long id);
 	List<InnModel> findAll(Pageable pageable);
 	List<InnModel> findAll(Boolean isDeleted, String address, String isConfirmed, Pageable pageable);
+	List<InnModel> findByProposedById(Users users);
 }
