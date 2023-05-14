@@ -64,11 +64,20 @@ public class MessageAPI {
 			}
 			Message entity = new Message();
 			entity.setMessage(message);
-			Optional<Users> user = iUsersService.findById(userId);
-			if(user.isPresent()) {
-				entity.setUserId(user.get());
+			Optional<Users> opUser = iUsersService.findById(userId);
+			Users user = new Users();
+			if(opUser.isPresent()) {
+				user = opUser.get();
+				entity.setUserId(user);
 			}
 			Question question =iQuestionService.findById(questionId);
+			Users answeredUser = question.getAnswererId();
+			if((answeredUser == null) && 
+			   (user.getUserId()!=question.getAskedId().getUserId()) &&
+			   (user.getRole().equals("tuvanvien"))) {
+				question.setAnswererId(user);
+				iQuestionService.save(question);
+			}
 			entity.setQuestionId(question);
 			messageService.addMessage(entity);
 			return new ResponseEntity<>("Success", HttpStatus.CREATED);
