@@ -356,7 +356,7 @@ public class ApiApplication {
 				answer2.setUserId(tuvanvien2);
 				messageService.save(answer2);
 
-				question.setAnswererId(tuvanvien2);
+				question2.setAnswererId(tuvanvien2);
 				iQuestionService.save(question2);
 				
 				//Question3
@@ -378,7 +378,7 @@ public class ApiApplication {
 				answer3.setUserId(tuvanvien2);
 				messageService.save(answer3);
 
-				question.setAnswererId(tuvanvien2);
+				question3.setAnswererId(tuvanvien2);
 				iQuestionService.save(question3);
 				
 				//Question4
@@ -400,7 +400,7 @@ public class ApiApplication {
 				answer4.setUserId(tuvanvien2);
 				messageService.save(answer4);
 
-				question.setAnswererId(tuvanvien2);
+				question4.setAnswererId(tuvanvien2);
 				iQuestionService.save(question4);
 				
 				//Question5
