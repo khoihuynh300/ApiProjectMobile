@@ -3,9 +3,11 @@ package com.example.api.api;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +18,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.entity.Message;
+import com.example.api.entity.Notification;
 import com.example.api.entity.Question;
 import com.example.api.entity.Users;
 import com.example.api.model.MessageModel;
+import com.example.api.model.NotificationModel;
 import com.example.api.service.IInnService;
+import com.example.api.service.INotifyService;
 import com.example.api.service.IQuestionService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MessageService;
 import com.example.api.service.impl.MessageModel2;
+import com.example.api.utils.apiResponse.ApiResponseSimple;
 
 @RestController
 @RequestMapping("api/")
@@ -39,6 +45,10 @@ public class MessageAPI {
 
 	@Autowired
 	IUsersService iUsersService;
+	
+
+	@Autowired INotifyService iNotifyService;
+	@Autowired SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping("getAllMessageByQuestionId/{id}")
 	public ResponseEntity<?> getAllMessagesByQuestionId(@PathVariable("id") Long id) {
@@ -80,6 +90,21 @@ public class MessageAPI {
 			}
 			entity.setQuestionId(question);
 			messageService.addMessage(entity);
+			
+			// Thêm thông báo 
+			Users received = question.getAskedId();
+			Notification notification = new Notification();
+			notification.setUserId(received);
+			notification.setNotificationContent("Câu hỏi của bạn đã được " + entity.getUserId().getFullname() + " trả lời");
+			notification.setNotificationLink("qes/" + question.getQuestionId());
+			iNotifyService.save(notification);
+			
+			//thông báo websocket
+			NotificationModel model = new NotificationModel();
+			BeanUtils.copyProperties(notification, model);
+			messagingTemplate.convertAndSend("/topic/notify/" + received.getUserId(),model);
+			
+			
 			return new ResponseEntity<>("Success", HttpStatus.CREATED);
 		}catch (Exception e){
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);

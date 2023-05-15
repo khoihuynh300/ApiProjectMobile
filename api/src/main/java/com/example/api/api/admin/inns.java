@@ -2,11 +2,13 @@ package com.example.api.api.admin;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.entity.Inn;
+import com.example.api.entity.Notification;
 import com.example.api.entity.Users;
 import com.example.api.model.InnModel;
+import com.example.api.model.NotificationModel;
 import com.example.api.service.IInnService;
+import com.example.api.service.INotifyService;
 import com.example.api.service.IUsersService;
 import com.example.api.utils.apiResponse.ApiResponseSimple;
 import com.example.api.utils.apiResponse.ApiResponseWithMeta;
@@ -34,6 +39,8 @@ public class inns {
 	IInnService iInnService;
 	
 	@Autowired IUsersService usersService;
+	@Autowired INotifyService iNotifyService;
+	@Autowired SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping
 	public ResponseEntity<?> getInns(
@@ -70,6 +77,19 @@ public class inns {
 		inn.setIsConfirmed(true);
 		iInnService.save(inn);
 		
+		// Thêm thông báo 
+		Users received = inn.getProposedById();
+		Notification notification = new Notification();
+		notification.setUserId(received);
+		notification.setNotificationContent("Phòng trọ bạn đề xuất đã được quản lý xác minh");
+		notification.setNotificationLink("inn/" + innId);
+		iNotifyService.save(notification);
+		
+		//thông báo websocket
+		NotificationModel model = new NotificationModel();
+		BeanUtils.copyProperties(notification, model);
+		messagingTemplate.convertAndSend("/topic/notify/" + received.getUserId(),model);
+		System.err.println(received.getUserId());
 		return ResponseEntity.ok(new ApiResponseSimple(false,  "updated"));	
 	}
 	

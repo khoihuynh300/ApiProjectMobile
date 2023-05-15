@@ -3,6 +3,8 @@ package com.example.api.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.annotations.Nationalized;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,13 +37,14 @@ public class Notification implements Serializable {
 	private Long notificationId;
 	
 	@Column(name = "NotificationContent")
+	@Nationalized
 	private String notificationContent;
 	
 	@Column(name = "NotificationLink")
 	private String notificationLink;
 	
 	@Column(name="isViewed")
-	private Boolean isViewed;
+	private Boolean isViewed = false;
 	
 	private Date createdAt;
 	private Date updatedAt;

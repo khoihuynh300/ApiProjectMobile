@@ -308,7 +308,7 @@ public class ApiApplication {
 				newInnModel7.setPriceELec((double) 2000);
 				newInnModel7.setPriceWater((double) 2000);
 				newInnModel7.setSize(3);
-				newInnModel7.setProposedId(sinhvien4.getUserId());
+				newInnModel7.setProposedId(sinhvien3.getUserId());
 				
 				List<String> imageArr7 = new ArrayList<>() ;
 				imageArr7.add("tro15.jpg");
