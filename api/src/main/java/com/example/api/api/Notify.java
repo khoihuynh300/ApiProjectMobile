@@ -1,12 +1,11 @@
 package com.example.api.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +17,7 @@ import com.example.api.entity.Users;
 import com.example.api.model.NotificationModel;
 import com.example.api.service.INotifyService;
 import com.example.api.service.IUsersService;
+import com.example.api.utils.apiResponse.ApiResponseSimple;
 import com.example.api.utils.apiResponse.ApiResponseWithResult;
 
 @RestController
@@ -40,10 +40,20 @@ public class Notify {
 			BeanUtils.copyProperties(not, model);
 			listModels.add(model);
 		}
-		
+		Collections.reverse(listModels);
 		ApiResponseWithResult apiResponse = new ApiResponseWithResult(false, "ok", listModels);
 		return ResponseEntity.ok(apiResponse);
 	}
-	
+
+	@GetMapping("viewed/{id}")
+	public ResponseEntity<?> viewedNotify(@PathVariable("id") Long notId){
+		
+		Notification not = iNotifyService.findById(notId).get();
+		not.setIsViewed(true);
+		iNotifyService.save(not);
+		
+		ApiResponseSimple apiResponse = new ApiResponseSimple(false, "ok");
+		return ResponseEntity.ok(apiResponse);
+	}
 	
 }
