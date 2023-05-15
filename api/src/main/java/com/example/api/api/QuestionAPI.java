@@ -27,6 +27,8 @@ import com.example.api.service.IQuestionService;
 import com.example.api.service.IUsersService;
 import com.example.api.service.MessageService;
 import com.example.api.service.ResponseService;
+import com.example.api.utils.apiResponse.ApiResponseSimple;
+import com.example.api.utils.apiResponse.ApiResponseWithResult;
 
 @RestController
 @RequestMapping("api/")
@@ -99,6 +101,17 @@ public class QuestionAPI {
 			questionList.add(emptyQuestion);
 		}
 		return questionList;
+	}
+	
+	@GetMapping("question/{id}")
+	public ResponseEntity<?> getQuestion(@PathVariable("id") Long questionId) {
+		Question question = questionService.findById(questionId);
+		
+		QuestionModel model = new QuestionModel();
+		
+		BeanUtils.copyProperties(question, model);
+		
+		return ResponseEntity.ok(new ApiResponseWithResult(false,  "ok", model));	
 	}
 
 //	@DeleteMapping("deleteQuestion/{id}")

@@ -91,19 +91,22 @@ public class MessageAPI {
 			entity.setQuestionId(question);
 			messageService.addMessage(entity);
 			
-			// Thêm thông báo 
-			Users received = question.getAskedId();
-			Notification notification = new Notification();
-			notification.setUserId(received);
-			notification.setNotificationContent("Câu hỏi của bạn đã được " + entity.getUserId().getFullname() + " trả lời");
-			notification.setNotificationLink("qes/" + question.getQuestionId());
-			iNotifyService.save(notification);
+			if(entity.getUserId().getRole().equals("tuvanvien")) {
+				
 			
-			//thông báo websocket
-			NotificationModel model = new NotificationModel();
-			BeanUtils.copyProperties(notification, model);
-			messagingTemplate.convertAndSend("/topic/notify/" + received.getUserId(),model);
-			
+				// Thêm thông báo 
+				Users received = question.getAskedId();
+				Notification notification = new Notification();
+				notification.setUserId(received);
+				notification.setNotificationContent("Câu hỏi của bạn đã được " + entity.getUserId().getFullname() + " trả lời");
+				notification.setNotificationLink("qes/" + question.getQuestionId());
+				iNotifyService.save(notification);
+				
+				//thông báo websocket
+				NotificationModel model = new NotificationModel();
+				BeanUtils.copyProperties(notification, model);
+				messagingTemplate.convertAndSend("/topic/notify/" + received.getUserId(),model);
+			}
 			
 			return new ResponseEntity<>("Success", HttpStatus.CREATED);
 		}catch (Exception e){
